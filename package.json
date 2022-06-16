@@ -4,17 +4,26 @@
   "description": "This repository is the part of nodejs-assignments https://github.com/AlreadyBored/nodejs-assignments",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "start:dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:hallovarvara/crud-api-nodejs.git"
   },
-  "keywords": ["nodejs", "file manager", "hallovarvara"],
+  "keywords": [
+    "nodejs",
+    "file manager",
+    "hallovarvara"
+  ],
   "author": "Varya Deviaterikova <hallovarvara@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/hallovarvara/crud-api-nodejs/issues"
   },
-  "homepage": "https://github.com/hallovarvara/crud-api-nodejs#readme"
+  "homepage": "https://github.com/hallovarvara/crud-api-nodejs#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.16",
+    "prettier": "^2.7.0"
+  }
 }
