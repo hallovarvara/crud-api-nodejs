@@ -1,0 +1,38 @@
+[
+  {
+    "id": "2",
+    "username": "jane-doherty",
+    "age": 22,
+    "hobbies": ["auto", "soccer", "boxing"]
+  },
+  {
+    "id": "3",
+    "username": "jason-number-two",
+    "age": 47,
+    "hobbies": ["computer games", "soccer", "hunting"]
+  },
+  {
+    "username": "chris-pratt",
+    "age": 30,
+    "hobbies": ["saving the world", "loving ufo", "old guys music"],
+    "id": "c2b0c25c-caf8-45d5-a8f5-9c50ea591220"
+  },
+  {
+    "username": "lexy",
+    "age": 14,
+    "hobbies": ["anime", "surfing"],
+    "id": "33fce4e1-53ae-41e3-a7b2-8f0e3833645d"
+  },
+  {
+    "username": "katie",
+    "age": 4,
+    "hobbies": ["playing cubes", "watch TV"],
+    "id": "b8fa40c6-f350-48f8-b914-e865d25afe88"
+  },
+  {
+    "username": "petty",
+    "age": 20,
+    "hobbies": [],
+    "id": "d2355658-9f75-4bba-b1dd-23e1548bebfe"
+  }
+]
