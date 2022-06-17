@@ -1,7 +1,12 @@
 import http from 'http';
 import { STATUS_CODE_NOT_FOUND, PORT_DEFAULT } from './constants.js';
 
-import { getUsers, getUser } from './controllers/user.controller.js';
+import {
+  getUsers,
+  getUser,
+  createUser,
+} from './controllers/user.controller.js';
+
 import { getIdFromRequest } from './utils/get-id-from-request.js';
 import { checkRequestUrlHasId } from './utils/check-request-url-has-id.js';
 
@@ -16,9 +21,17 @@ const server = http.createServer(async (req, res) => {
   } else if (checkRequestUrlHasId(req) && req.method === 'GET') {
     const id = getIdFromRequest(req);
     await getUser({ res, req, id });
+  } else if (isUrlToUsersEndpoint && req.method === 'POST') {
+    await createUser({ req, res });
   } else {
     res.statusCode = STATUS_CODE_NOT_FOUND;
-    res.end(JSON.stringify({ message: 'Route not found' }));
+
+    res.end(
+      JSON.stringify({
+        message:
+          'Route is incorrect. Try to check API documentation in README.md for accessing correct url',
+      }),
+    );
   }
 });
 

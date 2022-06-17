@@ -7,7 +7,7 @@ export const getIdFromRequest = (req) => {
     return '';
   }
 
-  const urlPathRemoved = req?.url?.replace(URL_BEFORE_USER_ID_ROUTE_REGEX, '');
-
-  return urlPathRemoved.slice(0, urlPathRemoved.indexOf('/'));
+  const id = req?.url?.replace(URL_BEFORE_USER_ID_ROUTE_REGEX, '');
+  const restPathPartIndex = id.indexOf('/') + 1;
+  return restPathPartIndex > 0 ? id.slice(0, id.indexOf('/') + 1) : id;
 };
