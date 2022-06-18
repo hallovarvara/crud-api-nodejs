@@ -7,12 +7,12 @@ import {
   createUser,
   updateUser,
   removeUser,
-} from './controllers/user.controller.js';
+} from './controllers/user.controller';
 
-import { getIdFromRequest } from './utils/get-id-from-request.js';
-import { checkRequestUrlHasId } from './utils/check-request-url-has-id.js';
-import { STATUS_CODE_NOT_FOUND, PORT_DEFAULT } from './constants.js';
-import { handleError } from './utils/handle-error.js';
+import { getIdFromRequest } from './utils/get-id-from-request';
+import { checkRequestUrlHasId } from './utils/check-request-url-has-id';
+import { STATUS_CODE_NOT_FOUND, PORT_DEFAULT } from './constants';
+import { handleError } from './utils/handle-error';
 
 config();
 
@@ -45,6 +45,14 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || PORT_DEFAULT;
+const PORT = process.env['PORT'] || PORT_DEFAULT;
 
 server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+
+// test case example:
+//// 1. пытаемся получить всех юзеров → пустой массив
+//// 2. создаем юзера
+//// 3. пытаемся получить созданного юзера
+//// 4. обновляем юзера
+//// 5. удаляем юзера
+//// 6. пытаемся получить созданного юзера → не получаем

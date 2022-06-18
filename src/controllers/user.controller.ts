@@ -1,26 +1,33 @@
-import * as User from '../models/user.model.js';
+import { IncomingMessage, ServerResponse } from 'http';
 
-import { getPostData } from '../utils/get-post-data.js';
-import { handleErrorUserNotFound } from '../utils/handle-error-user-not-found.js';
-import { validateUserId } from '../utils/validate-user-id.js';
-import { isUndefined } from '../utils/is-undefined.js';
-import { isString } from '../utils/is-string.js';
-import { isArray } from '../utils/is-array.js';
-import { isNumber } from '../utils/is-number.js';
-import { handleError } from '../utils/handle-error.js';
+import * as User from '../models/user.model';
+
+import { getPostData } from '../utils/get-post-data';
+import { handleErrorUserNotFound } from '../utils/handle-error-user-not-found';
+import { validateUserId } from '../utils/validate-user-id';
+import { isUndefined } from '../utils/is-undefined';
+import { isString } from '../utils/is-string';
+import { isArray } from '../utils/is-array';
+import { isNumber } from '../utils/is-number';
+import { handleError } from '../utils/handle-error';
 
 import {
   STATUS_CODE_CREATED,
   STATUS_CODE_DELETED,
   STATUS_CODE_INVALID_INPUT,
   STATUS_CODE_SUCCESS,
-} from '../constants.js';
+} from '../constants';
+
+import { UserDataT, UserT } from '../types/user';
 
 /*
    @desc  Gets all users
    @route GET /api/users
 */
-export const getUsers = async ({ res }) => {
+
+type GetUsersF = (props: { res: ServerResponse }) => void;
+
+export const getUsers: GetUsersF = async ({ res }) => {
   try {
     const users = await User.findAll();
 
@@ -39,7 +46,10 @@ export const getUsers = async ({ res }) => {
    @desc  Gets one user by id
    @route GET /api/user/:id
 */
-export const getUser = async ({ res, id }) => {
+
+type GetAndRemoveUserF = (props: { res: ServerResponse; id: string }) => void;
+
+export const getUser: GetAndRemoveUserF = async ({ res, id }) => {
   try {
     validateUserId({ res, id });
 
@@ -64,11 +74,18 @@ export const getUser = async ({ res, id }) => {
    @desc  Creates a new user
    @route POST /api/users
 */
-export const createUser = async ({ req, res }) => {
+
+type CreateUserF = (props: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) => void;
+
+export const createUser: CreateUserF = async ({ req, res }) => {
   try {
     const bodyJson = await getPostData({ req });
     const body = await JSON.parse(bodyJson);
-    const { username, age, hobbies } = body;
+    const { username, age } = body;
+    const hobbies: UserT['hobbies'] = body.hobbies;
 
     if (
       [username, age, hobbies].some(isUndefined) ||
@@ -86,7 +103,7 @@ export const createUser = async ({ req, res }) => {
       return;
     }
 
-    const user = { username, age, hobbies };
+    const user: UserDataT = { username, age, hobbies };
     const newUser = await User.create(user);
 
     res.statusCode = STATUS_CODE_CREATED;
@@ -100,7 +117,14 @@ export const createUser = async ({ req, res }) => {
    @desc  Updates user by id
    @route PUT /api/user/:id
 */
-export const updateUser = async ({ req, res, id }) => {
+
+type UpdateUserF = (props: {
+  req: IncomingMessage;
+  res: ServerResponse;
+  id: string;
+}) => void;
+
+export const updateUser: UpdateUserF = async ({ req, res, id }) => {
   try {
     validateUserId({ res, id });
 
@@ -113,7 +137,8 @@ export const updateUser = async ({ req, res, id }) => {
 
     const bodyJson = await getPostData({ req });
     const body = await JSON.parse(bodyJson);
-    const { username, age, hobbies } = body;
+    const { username, age } = body;
+    const hobbies: UserT['hobbies'] = body.hobbies;
 
     if (
       !isString(username) ||
@@ -149,7 +174,7 @@ export const updateUser = async ({ req, res, id }) => {
    @desc  Removes user by id
    @route DELETE /api/user/:id
 */
-export const removeUser = async ({ res, id }) => {
+export const removeUser: GetAndRemoveUserF = async ({ res, id }) => {
   try {
     validateUserId({ res, id });
 

@@ -1,9 +1,13 @@
-export const getPostData = ({ req }) => {
-  return new Promise((resolve, reject) => {
+import { IncomingMessage } from 'http';
+
+type GetPostDataF = (props: { req: IncomingMessage }) => Promise<string>;
+
+export const getPostData: GetPostDataF = ({ req }) =>
+  new Promise((resolve, reject) => {
     try {
       let body = '';
 
-      req.on('data', (chunk) => {
+      req.on('data', (chunk: Buffer) => {
         body += chunk.toString();
       });
 
@@ -18,4 +22,3 @@ export const getPostData = ({ req }) => {
       reject(error);
     }
   });
-};
