@@ -115,6 +115,21 @@ export const updateUser = async ({ req, res, id }) => {
     const body = await JSON.parse(bodyJson);
     const { username, age, hobbies } = body;
 
+    if (
+      !isString(username) ||
+      !isNumber(age) ||
+      !isArray(hobbies) ||
+      (isArray(hobbies) && hobbies.some((hobby) => !isString(hobby)))
+    ) {
+      handleError({
+        statusCode: STATUS_CODE_INVALID_INPUT,
+        message: `Request fields data types are invalid. Please pass 'username' string, 'age' number, 'hobbies' array of strings or empty array`,
+        res,
+      });
+
+      return;
+    }
+
     const userData = {
       username: username || user.username,
       age: age || user.age,

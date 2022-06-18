@@ -1,51 +1,39 @@
-import path from 'path';
-import usersDb from '../../data/users-example.json' assert { type: 'json' };
 import { v4 as uuidv4 } from 'uuid';
-import { writeDataToFile } from '../utils/write-data-to-file.js';
-import { getDirname } from '../utils/get-dirname.js';
 
-let users = [...usersDb];
-
-const DATABASE_PATH = path.resolve(
-  getDirname(import.meta.url),
-  '../../data/users-example.json',
-);
+let users = [];
 
 export const findAll = async () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     resolve(users);
   });
 };
 
 export const findById = async (id) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const user = users.find((u) => u.id === id);
     resolve(user);
   });
 };
 
 export const create = async (user) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const newUser = { ...user, id: uuidv4() };
     users.push(newUser);
-    writeDataToFile({ filename: DATABASE_PATH, content: users });
     resolve(newUser);
   });
 };
 
 export const update = async ({ id, userData }) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const index = users.findIndex((user) => user.id === id);
     users[index] = { ...users[index], ...userData };
-    writeDataToFile({ filename: DATABASE_PATH, content: users });
     resolve(users[index]);
   });
 };
 
 export const remove = async (id) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     users = users.filter((user) => user.id !== id);
-    writeDataToFile({ filename: DATABASE_PATH, content: users });
     resolve();
   });
 };
