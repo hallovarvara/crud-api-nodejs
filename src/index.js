@@ -1,4 +1,5 @@
 import http from 'http';
+import { config } from 'dotenv';
 
 import {
   getUsers,
@@ -12,6 +13,8 @@ import { getIdFromRequest } from './utils/get-id-from-request.js';
 import { checkRequestUrlHasId } from './utils/check-request-url-has-id.js';
 import { STATUS_CODE_NOT_FOUND, PORT_DEFAULT } from './constants.js';
 import { handleError } from './utils/handle-error.js';
+
+config();
 
 const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
