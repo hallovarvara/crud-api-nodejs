@@ -11,6 +11,7 @@ import { handleError } from '../utils/handle-error.js';
 
 import {
   STATUS_CODE_CREATED,
+  STATUS_CODE_DELETED,
   STATUS_CODE_INVALID_INPUT,
   STATUS_CODE_SUCCESS,
 } from '../constants.js';
@@ -107,23 +108,48 @@ export const updateUser = async ({ req, res, id }) => {
 
     if (!user) {
       handleErrorUserNotFound({ res, id });
-    } else {
-      const bodyJson = await getPostData({ req });
-      const body = await JSON.parse(bodyJson);
-      const { username, age, hobbies } = body;
-
-      const userData = {
-        username: username || user.username,
-        age: age || user.age,
-        hobbies: hobbies || user.hobbies,
-      };
-
-      const updatedUser = await User.update({ id, userData });
-
-      res.statusCode = STATUS_CODE_SUCCESS;
-      res.end(JSON.stringify(updatedUser));
+      return;
     }
+
+    const bodyJson = await getPostData({ req });
+    const body = await JSON.parse(bodyJson);
+    const { username, age, hobbies } = body;
+
+    const userData = {
+      username: username || user.username,
+      age: age || user.age,
+      hobbies: hobbies || user.hobbies,
+    };
+
+    const updatedUser = await User.update({ id, userData });
+
+    res.statusCode = STATUS_CODE_SUCCESS;
+    res.end(JSON.stringify(updatedUser));
   } catch (error) {
     handleError({ error, message: 'Problem with updating user request', res });
+  }
+};
+
+/*
+   @desc  Removes user by id
+   @route DELETE /api/user/:id
+*/
+export const removeUser = async ({ res, id }) => {
+  try {
+    validateUserId({ res, id });
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      handleErrorUserNotFound({ res, id });
+      return;
+    }
+
+    await User.remove(id);
+
+    res.statusCode = STATUS_CODE_DELETED;
+    res.end();
+  } catch (error) {
+    handleError({ error, message: 'Problem with deleting user request', res });
   }
 };

@@ -5,11 +5,13 @@ import {
   getUser,
   createUser,
   updateUser,
+  removeUser,
 } from './controllers/user.controller.js';
 
 import { getIdFromRequest } from './utils/get-id-from-request.js';
 import { checkRequestUrlHasId } from './utils/check-request-url-has-id.js';
 import { STATUS_CODE_NOT_FOUND, PORT_DEFAULT } from './constants.js';
+import { handleError } from './utils/handle-error.js';
 
 const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -27,15 +29,16 @@ const server = http.createServer(async (req, res) => {
   } else if (checkRequestUrlHasId(req) && req.method === 'PUT') {
     const id = getIdFromRequest(req);
     await updateUser({ res, req, id });
+  } else if (checkRequestUrlHasId(req) && req.method === 'DELETE') {
+    const id = getIdFromRequest(req);
+    await removeUser({ res, id });
   } else {
-    res.statusCode = STATUS_CODE_NOT_FOUND;
-
-    res.end(
-      JSON.stringify({
-        message:
-          'Route is incorrect. Try to check API documentation in README.md for accessing correct url',
-      }),
-    );
+    handleError({
+      message:
+        'Route is incorrect. Try to check API documentation in README.md for accessing correct url',
+      res,
+      statusCode: STATUS_CODE_NOT_FOUND,
+    });
   }
 });
 

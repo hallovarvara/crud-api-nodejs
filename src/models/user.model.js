@@ -41,3 +41,11 @@ export const update = async ({ id, userData }) => {
     resolve(users[index]);
   });
 };
+
+export const remove = async (id) => {
+  return new Promise((resolve, reject) => {
+    users = users.filter((user) => user.id !== id);
+    writeDataToFile({ filename: DATABASE_PATH, content: users });
+    resolve();
+  });
+};
