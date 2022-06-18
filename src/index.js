@@ -1,14 +1,15 @@
 import http from 'http';
-import { STATUS_CODE_NOT_FOUND, PORT_DEFAULT } from './constants.js';
 
 import {
   getUsers,
   getUser,
   createUser,
+  updateUser,
 } from './controllers/user.controller.js';
 
 import { getIdFromRequest } from './utils/get-id-from-request.js';
 import { checkRequestUrlHasId } from './utils/check-request-url-has-id.js';
+import { STATUS_CODE_NOT_FOUND, PORT_DEFAULT } from './constants.js';
 
 const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -17,12 +18,15 @@ const server = http.createServer(async (req, res) => {
     req.url === '/api/users' || req.url === '/api/users/';
 
   if (isUrlToUsersEndpoint && req.method === 'GET') {
-    await getUsers({ req, res });
+    await getUsers({ res });
   } else if (checkRequestUrlHasId(req) && req.method === 'GET') {
     const id = getIdFromRequest(req);
-    await getUser({ res, req, id });
+    await getUser({ res, id });
   } else if (isUrlToUsersEndpoint && req.method === 'POST') {
     await createUser({ req, res });
+  } else if (checkRequestUrlHasId(req) && req.method === 'PUT') {
+    const id = getIdFromRequest(req);
+    await updateUser({ res, req, id });
   } else {
     res.statusCode = STATUS_CODE_NOT_FOUND;
 

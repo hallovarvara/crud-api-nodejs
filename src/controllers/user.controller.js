@@ -19,7 +19,7 @@ import {
    @desc  Gets all users
    @route GET /api/users
 */
-export const getUsers = async ({ req, res }) => {
+export const getUsers = async ({ res }) => {
   try {
     const users = await User.findAll();
 
@@ -38,7 +38,7 @@ export const getUsers = async ({ req, res }) => {
    @desc  Gets one user by id
    @route GET /api/user/:id
 */
-export const getUser = async ({ req, res, id }) => {
+export const getUser = async ({ res, id }) => {
   try {
     validateUserId({ res, id });
 
@@ -92,5 +92,38 @@ export const createUser = async ({ req, res }) => {
     res.end(JSON.stringify(newUser));
   } catch (error) {
     handleError({ error, message: 'Problem with creating user request', res });
+  }
+};
+
+/*
+   @desc  Updates user by id
+   @route PUT /api/user/:id
+*/
+export const updateUser = async ({ req, res, id }) => {
+  try {
+    validateUserId({ res, id });
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      handleErrorUserNotFound({ res, id });
+    } else {
+      const bodyJson = await getPostData({ req });
+      const body = await JSON.parse(bodyJson);
+      const { username, age, hobbies } = body;
+
+      const userData = {
+        username: username || user.username,
+        age: age || user.age,
+        hobbies: hobbies || user.hobbies,
+      };
+
+      const updatedUser = await User.update({ id, userData });
+
+      res.statusCode = STATUS_CODE_SUCCESS;
+      res.end(JSON.stringify(updatedUser));
+    }
+  } catch (error) {
+    handleError({ error, message: 'Problem with updating user request', res });
   }
 };

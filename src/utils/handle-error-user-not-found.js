@@ -5,7 +5,7 @@ export const handleErrorUserNotFound = ({ res, id }) => {
 
   res.end(
     JSON.stringify({
-      message: `User with id '${id}' wasn't found. Try to pass another id parameter`,
+      message: `User with id '${id}' wasn't found. Try to pass another id`,
     }),
   );
 };

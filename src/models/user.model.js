@@ -32,3 +32,12 @@ export const create = async (user) => {
     resolve(newUser);
   });
 };
+
+export const update = async ({ id, userData }) => {
+  return new Promise((resolve, reject) => {
+    const index = users.findIndex((user) => user.id === id);
+    users[index] = { ...users[index], ...userData };
+    writeDataToFile({ filename: DATABASE_PATH, content: users });
+    resolve(users[index]);
+  });
+};
