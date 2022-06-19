@@ -12,6 +12,7 @@ import { isNumber } from '../utils/is-number';
 import { handleError } from '../utils/handle-error';
 
 import {
+  MESSAGE_REQUIRED_FIELDS,
   STATUS_CODE_CREATED,
   STATUS_CODE_DELETED,
   STATUS_CODE_INVALID_INPUT,
@@ -87,16 +88,22 @@ export const createUser: CreateUserF = async ({ req, res }) => {
     const { username, age } = body;
     const hobbies: UserT['hobbies'] = body.hobbies;
 
-    if (
-      [username, age, hobbies].some(isUndefined) ||
+    if ([username, age, hobbies].some(isUndefined)) {
+      handleError({
+        statusCode: STATUS_CODE_INVALID_INPUT,
+        message: `Request doesn't contain required fields. ${MESSAGE_REQUIRED_FIELDS}`,
+        res,
+      });
+
+      return;
+    } else if (
       !isString(username) ||
       !isNumber(age) ||
       !isArray(hobbies) ||
       (isArray(hobbies) && hobbies.some((hobby) => !isString(hobby)))
     ) {
       handleError({
-        statusCode: STATUS_CODE_INVALID_INPUT,
-        message: `Request doesn't contain required fields or types of these are invalid. Please pass 'username' string, 'age' number and 'hobbies' array of strings (or empty one)`,
+        message: `Types of request fields are invalid. ${MESSAGE_REQUIRED_FIELDS}`,
         res,
       });
 
