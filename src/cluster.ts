@@ -1,17 +1,27 @@
-import cluster from 'cluster';
+import cluster, { Worker } from 'cluster';
 import { cpus, EOL } from 'os';
 import { pid } from 'process';
 
 const clusterServers = async (): Promise<void> => {
   if (cluster.isPrimary) {
-    const numOfCpus = cpus().length;
+    const numberOfCpus = cpus().length;
+    const workers: Worker[] = [];
 
     console.log(
-      `Master process identifier is ${pid}${EOL}${numOfCpus} forks will be started`,
+      `Master process identifier is ${pid}${EOL}${numberOfCpus} forks will be started`,
     );
 
-    for (let i = 0; i < numOfCpus; i++) {
-      cluster.fork();
+    for (let i = 0; i < numberOfCpus; i++) {
+      const worker = cluster.fork();
+      workers.push(worker);
+
+      worker.on('message', ({ pid, users }) => {
+        workers.forEach((worker) => {
+          if (!worker.isDead() && worker.process.pid !== pid) {
+            worker.send(users);
+          }
+        });
+      });
     }
 
     return;

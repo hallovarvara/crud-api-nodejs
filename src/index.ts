@@ -1,4 +1,5 @@
 import http from 'http';
+import { pid } from 'process';
 import { config } from 'dotenv';
 
 import {
@@ -18,6 +19,7 @@ config();
 
 export const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
+  res.setHeader('PID', pid);
 
   const isUrlToUsersEndpoint =
     req.url === '/api/users' || req.url === '/api/users/';
