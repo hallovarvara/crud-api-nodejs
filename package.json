@@ -2,19 +2,46 @@
   "name": "crud-api-node",
   "version": "1.0.0",
   "description": "This repository is the part of nodejs-assignments https://github.com/AlreadyBored/nodejs-assignments",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "start": "node src/index.js"
+    "start:dev": "nodemon -w src src/index.ts",
+    "start:prod": "tsc && node dist/index.js",
+    "start:multi": "nodemon -w src src/cluster.ts",
+    "test": "jest --detectOpenHandles --verbose true"
+  },
+  "engines": {
+    "node": ">=16.0.0 <17"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:hallovarvara/crud-api-nodejs.git"
   },
-  "keywords": ["nodejs", "file manager", "hallovarvara"],
+  "keywords": [
+    "nodejs",
+    "api",
+    "crud",
+    "hallovarvara"
+  ],
   "author": "Varya Deviaterikova <hallovarvara@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/hallovarvara/crud-api-nodejs/issues"
   },
-  "homepage": "https://github.com/hallovarvara/crud-api-nodejs#readme"
+  "homepage": "https://github.com/hallovarvara/crud-api-nodejs#readme",
+  "devDependencies": {
+    "@types/jest": "^28.1.2",
+    "@types/supertest": "^2.0.12",
+    "@types/uuid": "^8.3.4",
+    "jest": "^28.1.1",
+    "nodemon": "^2.0.16",
+    "prettier": "^2.7.0",
+    "supertest": "^6.2.3",
+    "ts-jest": "^28.0.5",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "uuid": "^8.3.2"
+  }
 }
