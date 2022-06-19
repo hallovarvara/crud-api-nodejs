@@ -18,7 +18,7 @@ import {
   STATUS_CODE_SUCCESS,
 } from '../constants';
 
-import { UserDataT, UserT } from '../types/user';
+import { UserDataT, UserT } from '../types/user.types';
 
 /*
    @desc  Gets all users

@@ -1,4 +1,4 @@
-import { UserDataT, UsersDatabaseT, UserT } from '../types/user';
+import { UserDataT, UsersDatabaseT, UserT } from '../types/user.types';
 import { v4 as uuidv4 } from 'uuid';
 
 let users: UserT[] = [];

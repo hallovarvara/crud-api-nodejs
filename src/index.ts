@@ -16,7 +16,7 @@ import { handleError } from './utils/handle-error';
 
 config();
 
-const server = http.createServer(async (req, res) => {
+export const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
   const isUrlToUsersEndpoint =
@@ -48,11 +48,3 @@ const server = http.createServer(async (req, res) => {
 const PORT = process.env['PORT'] || PORT_DEFAULT;
 
 server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
-
-// test case example:
-//// 1. пытаемся получить всех юзеров → пустой массив
-//// 2. создаем юзера
-//// 3. пытаемся получить созданного юзера
-//// 4. обновляем юзера
-//// 5. удаляем юзера
-//// 6. пытаемся получить созданного юзера → не получаем
