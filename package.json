@@ -6,6 +6,7 @@
   "scripts": {
     "start:dev": "nodemon -w src src/index.ts",
     "start:prod": "tsc && node dist/index.js",
+    "start:multi": "nodemon -w src src/cluster.ts",
     "test": "jest --detectOpenHandles --verbose true"
   },
   "engines": {
