@@ -16,12 +16,12 @@ describe('scenario 1: user lifecycle', () => {
 
   let userId: string;
 
-  it('should return all users', async () => {
+  it('returns all users', async () => {
     const response = await request(server).get('/api/users');
     expect(response.statusCode).toBe(200);
   });
 
-  it('should create new user', async () => {
+  it('creates new user', async () => {
     const response = await request(server)
       .post('/api/users')
       .send(exampleUserData);
@@ -35,7 +35,7 @@ describe('scenario 1: user lifecycle', () => {
     expect(user).toEqual({ ...exampleUserData, id: userId });
   });
 
-  it('should get new user by id', async () => {
+  it('gets new user by id', async () => {
     const response = await request(server).get(`/api/users/${userId}`);
 
     expect(response.statusCode).toBe(200);
@@ -45,7 +45,7 @@ describe('scenario 1: user lifecycle', () => {
     expect(user).toEqual({ ...exampleUserData, id: userId });
   });
 
-  it('should update user', async () => {
+  it('updates user', async () => {
     const response = await request(server)
       .put(`/api/users/${userId}`)
       .send(updatedUserData);
@@ -57,12 +57,12 @@ describe('scenario 1: user lifecycle', () => {
     expect(user).toEqual({ ...updatedUserData, id: userId });
   });
 
-  it('should delete user', async () => {
+  it('deletes user', async () => {
     const response = await request(server).delete(`/api/users/${userId}`);
     expect(response.statusCode).toBe(204);
   });
 
-  it('should fail on getting new user by id', async () => {
+  it('fails on getting new user by id', async () => {
     const response = await request(server).get(`/api/users/${userId}`);
     expect(response.statusCode).toBe(404);
   });

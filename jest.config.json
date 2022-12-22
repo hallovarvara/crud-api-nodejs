@@ -1,7 +1,13 @@
 {
   "preset": "ts-jest",
   "testEnvironment": "node",
+  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(t|j)s?$",
+  "extensionsToTreatAsEsm": [".ts"],
   "transform": {
-    "^.+\\.ts?$": "ts-jest"
-  }
+    "^.+\\.(ts|tsx)?$": "ts-jest",
+    "^.+\\.(js|jsx)$": "babel-jest"
+  },
+  "roots": ["<rootDir>"],
+  "verbose": false,
+  "silent": false
 }

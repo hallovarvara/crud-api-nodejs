@@ -8,7 +8,7 @@ It uses in-memory database. It means that if you restart the process, all data w
 
 ## Tech requirements for starting the API
 
-Please, [download](https://nodejs.org/en/download/) and install 16 LTS version of Node.js for using this API.
+Please, [download](https://nodejs.org/en/download/) and install 18 LTS version of Node.js for using this API.
 
 To check node version, type in a console:
 ```bash

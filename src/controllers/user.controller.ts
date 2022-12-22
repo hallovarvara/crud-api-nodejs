@@ -104,6 +104,7 @@ export const createUser: CreateUserF = async ({ req, res }) => {
     ) {
       handleError({
         message: `Types of request fields are invalid. ${MESSAGE_REQUIRED_FIELDS}`,
+        statusCode: STATUS_CODE_INVALID_INPUT,
         res,
       });
 

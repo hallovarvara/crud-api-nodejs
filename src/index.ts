@@ -12,8 +12,8 @@ import {
 
 import { getIdFromRequest } from './utils/get-id-from-request';
 import { checkRequestUrlHasId } from './utils/check-request-url-has-id';
-import { STATUS_CODE_NOT_FOUND, PORT_DEFAULT } from './constants';
 import { handleError } from './utils/handle-error';
+import { STATUS_CODE_NOT_FOUND, PORT_DEFAULT } from './constants';
 
 config();
 

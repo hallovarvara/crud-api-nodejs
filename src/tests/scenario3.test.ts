@@ -17,7 +17,7 @@ describe('scenario 3: fail on fail', () => {
   let brokenId = '123';
   let userId: string;
 
-  it("prerequisites → should create new user and store it's id", async () => {
+  it("prerequisites → creates new user and store it's id", async () => {
     const response = await request(server)
       .post('/api/users')
       .send(correctUserData);
@@ -27,12 +27,12 @@ describe('scenario 3: fail on fail', () => {
     userId = response.body.id || '';
   });
 
-  it('should fail returning all users because of url', async () => {
+  it('fails returning all users because of url', async () => {
     const response = await request(server).get('/api/users//');
     expect(response.statusCode).toBe(400);
   });
 
-  it('should fail creating new user because of incorrect data', async () => {
+  it('fails creating new user because of incorrect data', async () => {
     const response = await request(server)
       .post('/api/users')
       .send(incorrectUserData);
@@ -40,12 +40,12 @@ describe('scenario 3: fail on fail', () => {
     expect(response.statusCode).toBe(400);
   });
 
-  it('should fail on getting user by invalid id', async () => {
+  it('fails on getting user by invalid id', async () => {
     const response = await request(server).get(`/api/users/${brokenId}`);
     expect(response.statusCode).toBe(400);
   });
 
-  it('should fail updating existing user because of incorrect data', async () => {
+  it('fails updating existing user because of incorrect data', async () => {
     const response = await request(server)
       .put(`/api/users/${userId}`)
       .send(incorrectUserData);
@@ -53,12 +53,12 @@ describe('scenario 3: fail on fail', () => {
     expect(response.statusCode).toBe(400);
   });
 
-  it('should fail deleting existing user because of invalid id', async () => {
+  it('fails deleting existing user because of invalid id', async () => {
     const response = await request(server).delete(`/api/users/${brokenId}`);
     expect(response.statusCode).toBe(400);
   });
 
-  it('should fail deleting non-existent user', async () => {
+  it('fails deleting non-existent user', async () => {
     brokenId = userId.replace('1', '2').replace('3', '4').replace('5', '6');
     const response = await request(server).delete(`/api/users/${brokenId}`);
     expect(response.statusCode).toBe(404);

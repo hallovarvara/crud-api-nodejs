@@ -11,13 +11,13 @@ describe('scenario 2: broken id consequences', () => {
   let userId = '';
   let brokenId = '';
 
-  it('should return empty database of users', async () => {
+  it('returns empty database of users', async () => {
     const response = await request(server).get('/api/users');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual([]);
   });
 
-  it('should create new user', async () => {
+  it('creates new user', async () => {
     const response = await request(server)
       .post('/api/users')
       .send(exampleUserData);
@@ -34,7 +34,7 @@ describe('scenario 2: broken id consequences', () => {
     });
   });
 
-  it('should get user by correct id', async () => {
+  it('gets user by correct id', async () => {
     const response = await request(server).get(`/api/users/${userId}`);
 
     expect(response.statusCode).toBe(200);
@@ -49,7 +49,7 @@ describe('scenario 2: broken id consequences', () => {
     });
   });
 
-  it('should fail with status 404 while getting user by incorrect valid id', async () => {
+  it('fails with status 404 while getting user by incorrect valid id', async () => {
     brokenId = userId.replace('1', '2').replace('3', '4').replace('5', '6');
 
     const response = await request(server).get(`/api/users/${brokenId}`);
@@ -58,7 +58,7 @@ describe('scenario 2: broken id consequences', () => {
     expect(response.body.message).toBeTruthy();
   });
 
-  it('should fail with status 400 while getting user by incorrect invalid id', async () => {
+  it('fails with status 400 while getting user by incorrect invalid id', async () => {
     brokenId = '2';
 
     const response = await request(server).get(`/api/users/${brokenId}`);
@@ -67,7 +67,7 @@ describe('scenario 2: broken id consequences', () => {
     expect(response.body.message).toBeTruthy();
   });
 
-  it('should return database of one user with correct id', async () => {
+  it('returns database of one user with correct id', async () => {
     const response = await request(server).get('/api/users');
     expect(response.statusCode).toBe(200);
     expect(response.body[0].id).toBe(userId);
